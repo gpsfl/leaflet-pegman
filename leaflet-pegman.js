@@ -32,7 +32,10 @@ L.Control.Pegman = L.Control.extend({
 				iconAnchor: [24, 33],
 				iconUrl: 'data:image/png;base64,' + "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
 			}),
-		}
+		},
+		// Setting this to false can save a lot of http requests (on every mouse move),
+		// but it will no longer show a mouse pointer when hovering a tile with content
+		downloadTiles: true
 	},
 
 	__interactURL: 'https://unpkg.com/interactjs@1.2.9/dist/interact.min.js',
@@ -532,7 +535,7 @@ L.Control.Pegman = L.Control.extend({
 	},
 
 	_downloadTile: function(imageSrc, callback) {
-		if (!imageSrc) return;
+		if (!imageSrc || !this.options.downloadTiles) return;
 		var img = new Image();
 		img.crossOrigin = "Anonymous";
 		img.addEventListener("load", callback.bind(this, img), false);
